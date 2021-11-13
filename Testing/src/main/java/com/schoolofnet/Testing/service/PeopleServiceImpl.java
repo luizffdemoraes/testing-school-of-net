@@ -1,5 +1,7 @@
 package com.schoolofnet.Testing.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,11 @@ public class PeopleServiceImpl implements PeopleService {
 	@Override
 	public Person create(Person person) {
 		return this.personRepository.save(person);
+	}
+
+	@Override
+	public List<Person> findAll() {
+		return this.personRepository.findAll();
 	}
 
 }

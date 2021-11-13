@@ -12,6 +12,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.Arrays;
+import java.util.List;
+
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -30,6 +35,22 @@ public class PeopleControllerTest {
 	
 	@MockBean
 	private PeopleService peopleService;
+	
+	@Test
+	public void findAll() throws Exception {
+		Person leonan = new Person((long) 10, "Leonan", 22);
+		List<Person> mockPeople = Arrays.asList(leonan);
+		
+		ObjectWriter mapper = new ObjectMapper().writer().withDefaultPrettyPrinter();
+		String mockPersonJSON = mapper.writeValueAsString(mockPeople);
+		
+	
+		when(peopleService.findAll()).thenReturn(mockPeople);
+		mock.perform(get("/people")
+				.accept(MediaType.APPLICATION_JSON))
+		.andExpect(status().is(200))
+		.andExpect(content().json(mockPersonJSON));
+	}
 	
 	@Test
 	public void createdNewPerson() throws Exception {
