@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "people")
@@ -17,6 +18,7 @@ public class Person {
 	private Long id;
 	
 	@Column
+	@NotNull(message = "Nome deve ser informado.")
 	private String name;
 	
 	@Column

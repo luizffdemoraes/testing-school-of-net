@@ -78,8 +78,25 @@ public class PeopleControllerTest {
 	public void removePerson() throws Exception {
 		mock.perform(delete("/people" + "/{id}", new Long(1)))
 		.andExpect(status().is(200));
-		
 	}
+	
+	
+	@Test
+	public void createNewAndFail() throws Exception {
+		Person mockPerson = new Person((long) 9, "", 23);
+		
+		when(peopleService.create(any(Person.class))).thenReturn(mockPerson);
+		
+		ObjectWriter mapper = new ObjectMapper().writer().withDefaultPrettyPrinter();
+		String mockPersonJSON = mapper.writeValueAsString(mockPerson);
+		
+		mock.perform(post("/people")
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.content(mockPersonJSON))
+		.andExpect(status().is(400));
+	}
+	
 	
 
 }

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.schoolofnet.Testing.models.Person;
 import com.schoolofnet.Testing.service.PeopleService;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/people")
 public class PeopleController {
@@ -36,7 +38,7 @@ public class PeopleController {
 	}
 
 	@PostMapping
-	public Person create(@RequestBody Person person) {
+	public Person create(@RequestBody @Valid Person person) {
 		return this.peopleService.create(person);
 	}
 	
