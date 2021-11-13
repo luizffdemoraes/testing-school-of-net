@@ -28,4 +28,13 @@ public class PeopleServiceImpl implements PeopleService {
 		return this.personRepository.findAll();
 	}
 
+	@Override
+	public void remove(Long id) {
+		if (this.personRepository.existsById(id)) {
+			this.personRepository.deleteById(id);
+		}
+			
+		
+	}
+
 }

@@ -20,6 +20,7 @@ import java.util.List;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -35,6 +36,7 @@ public class PeopleControllerTest {
 	
 	@MockBean
 	private PeopleService peopleService;
+
 	
 	@Test
 	public void findAll() throws Exception {
@@ -47,7 +49,7 @@ public class PeopleControllerTest {
 	
 		when(peopleService.findAll()).thenReturn(mockPeople);
 		mock.perform(get("/people")
-				.accept(MediaType.APPLICATION_JSON))
+				.contentType(MediaType.APPLICATION_JSON))
 		.andExpect(status().is(200))
 		.andExpect(content().json(mockPersonJSON));
 	}
@@ -69,7 +71,13 @@ public class PeopleControllerTest {
 				.accept(MediaType.APPLICATION_JSON)
 				.content(mockPersonJSON))
 				.andExpect(status().isOk())
-				.andExpect(content().json(mockPersonJSON));
+				.andExpect(content().json(mockPersonJSON));	
+	}
+	
+	@Test
+	public void removePerson() throws Exception {
+		mock.perform(delete("/people" + "/{id}", new Long(1)))
+		.andExpect(status().is(200));
 		
 	}
 	

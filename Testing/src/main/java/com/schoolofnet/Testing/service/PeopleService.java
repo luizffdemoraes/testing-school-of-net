@@ -10,4 +10,6 @@ public interface PeopleService {
 
 	public List<Person> findAll();
 
+	public void remove(Long id);
+
 }
