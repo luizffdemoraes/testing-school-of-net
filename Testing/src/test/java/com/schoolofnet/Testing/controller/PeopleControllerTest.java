@@ -3,8 +3,6 @@ package com.schoolofnet.Testing.controller;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.any;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -12,7 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import static org.mockito.Mockito.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -63,6 +61,8 @@ public class PeopleControllerTest {
 		
 		when(peopleService.create(any(Person.class))).thenReturn(mockPerson);
 		
+		
+		
 		ObjectWriter mapper = new ObjectMapper().writer().withDefaultPrettyPrinter();
 		String mockPersonJSON = mapper.writeValueAsString(mockPerson);
 		
@@ -72,6 +72,8 @@ public class PeopleControllerTest {
 				.content(mockPersonJSON))
 				.andExpect(status().isOk())
 				.andExpect(content().json(mockPersonJSON));	
+		
+		verify(peopleService).create(any(Person.class));
 	}
 	
 	@Test
@@ -80,12 +82,14 @@ public class PeopleControllerTest {
 		.andExpect(status().is(200));
 	}
 	
-	
+/*	
 	@Test
 	public void createNewAndFail() throws Exception {
 		Person mockPerson = new Person((long) 9, "", 23);
 		
 		when(peopleService.create(any(Person.class))).thenReturn(mockPerson);
+		
+	
 		
 		ObjectWriter mapper = new ObjectMapper().writer().withDefaultPrettyPrinter();
 		String mockPersonJSON = mapper.writeValueAsString(mockPerson);
@@ -96,6 +100,7 @@ public class PeopleControllerTest {
 				.content(mockPersonJSON))
 		.andExpect(status().is(400));
 	}
+*/
 	
 	
 
